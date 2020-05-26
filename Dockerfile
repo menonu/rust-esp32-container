@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM ubuntu:18.04
 
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt update -y && apt upgrade -y
@@ -27,13 +27,13 @@ WORKDIR ${LLVM_BUILD}
 ENV CC clang
 ENV CXX clang++
 RUN cmake ../llvm-xtensa -DLLVM_TARGETS_TO_BUILD="Xtensa;X86" -DCMAKE_BUILD_TYPE=Release -G "Ninja"
-RUN cmake --build . 
+RUN cmake --build .
 
 ## Build Rust
 WORKDIR /
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > rustup.sh && \
 	chmod +x ./rustup.sh && \
-	./rustup.sh  --default-toolchain nightly --profile default -y && \ 
+	./rustup.sh  --default-toolchain nightly --profile default -y && \
 	rm rustup.sh
 
 ## Build LLVM
@@ -57,7 +57,7 @@ RUN wget https://dl.espressif.com/dl/xtensa-esp32-elf-linux64-1.22.0-80-g6c4433a
 	tar xzf xtensa-esp32-elf-linux64-1.22.0-80-g6c4433a-5.2.0.tar.gz && \
 	rm xtensa-esp32-elf-linux64-1.22.0-80-g6c4433a-5.2.0.tar.gz
 RUN pip install esptool
-	
+
 ## Setup Xargo
 RUN $HOME/.cargo/bin/cargo install xargo
 ENV XARGO_RUST_SRC ${BUILD_ROOT}/rust-xtensa/src
