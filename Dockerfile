@@ -1,8 +1,6 @@
 FROM ubuntu:18.04
 
 ARG DEBIAN_FRONTEND=noninteractive
-RUN apt update -y && apt upgrade -y
-
 ## Various dependencies
 RUN apt-get install -y wget sudo cmake clang-7 python zlib1g make git \
 	ninja-build llvm-7 libssl-dev pkg-config curl
@@ -13,12 +11,17 @@ RUN sudo apt-get install -y git wget flex bison gperf python python-pip python-s
 	python-serial python-click python-cryptography python-future python-pyparsing \
 	python-pyelftools cmake ninja-build ccache libffi-dev libssl-dev
 
+ADD clang-update.sh /tmp
+RUN /tmp/clang-update.sh 7 50
+
 ## Build LLVM
 ## based on these build instructions
 ## http://quickhack.net/nom/blog/2019-05-14-build-rust-environment-for-esp32.html
 ENV BUILD_ROOT $HOME/.xtensa
 RUN mkdir -p "${BUILD_ROOT}"
 WORKDIR ${BUILD_ROOT}
+RUN apt update -y && apt upgrade -y
+
 RUN git clone https://github.com/espressif/llvm-xtensa.git --depth 1
 RUN git clone https://github.com/espressif/clang-xtensa.git llvm-xtensa/tools/clang --depth 1
 ENV LLVM_BUILD ${BUILD_ROOT}/llvm_build
