@@ -4,8 +4,8 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN apt update -y && apt upgrade -y
 
 ## Various dependencies
-RUN apt-get install -y wget sudo cmake clang python zlib1g make git \
-	ninja-build llvm libssl-dev pkg-config curl
+RUN apt-get install -y wget sudo cmake clang-7 python zlib1g make git \
+	ninja-build llvm-7 libssl-dev pkg-config curl
 
 ## ESP-IDF dependencies
 ## https://docs.espressif.com/projects/esp-idf/en/latest/get-started/linux-setup.html
