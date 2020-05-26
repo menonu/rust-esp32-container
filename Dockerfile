@@ -1,6 +1,7 @@
 FROM ubuntu:18.04
 
 ARG DEBIAN_FRONTEND=noninteractive
+RUN apt update -y && apt upgrade -y
 ## Various dependencies
 RUN apt-get install -y wget sudo cmake clang-7 python zlib1g make git \
 	ninja-build llvm-7 libssl-dev pkg-config curl
